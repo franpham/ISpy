@@ -14,16 +14,34 @@ Template.map.helpers({
     }
   }
 });
-var mapInstance = null;
-var mapListener = null;
+
+// TODO: show the Markers, show the Images, popup Image, center Marker; upVote, downVote
+
+var mapInstance = null;   // needed to add map listener;
+var mapListener = null;   // needed to remove map listener;
+var lastMarker  = 0;      // needed to remove Marker if file upload is cancelled;
+
+Template.map.events({     // Register an onchange listener on the filepicker to save the url;
+  "click input[type='filepicker']" : function (picUrl) {       // filepicker input passes the url;
+    var markerKey = Markers.find({ createdAt: lastMarker })._id;
+    ImageData.insert({ markerId: markerKey, userId: Meteor.userId(), username: Meteor.user().username,
+                     createdAt: lastMarker, upCount: 0, downCount: 0, url: picUrl });
+    lastMarker = 0;         // reset lastMarker;
+  }
+});
 
 Template.map.events({
   'click #addMarker' : function (event) {
     if (!Meteor.userId())
       return;
     else if (!mapListener) {
+      lastMarker = Date.now();  // set lastMarker;
       mapListener = google.maps.event.addListener(mapInstance, 'click', function(event) {
-        Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+        // -----------------  MARKERS ARE INSERTED WHENEVER USER CLICKS ON THE MAP  ------------------
+
+        Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng(), createdAt: lastMarker,
+                         userId: Meteor.userId(), username: Meteor.user().username });
+        $("input[type='filepicker']").trigger();         // require a file upload if inserting a marker;
       });
     }
     else {
@@ -45,7 +63,7 @@ Template.map.onCreated(function() {
   GoogleMaps.ready('map', function(map) {
     console.log("GoogleMaps is ready!");
     mapInstance = map.instance;
-    var markers = {};     // -----------------  MARKERS ARE INSERTED WHENEVER USER CLICKS ON THE MAP  ------------------
+    var markers = {};
 
     Markers.find().observe({
       added: function(document) {
