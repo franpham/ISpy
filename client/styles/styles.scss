@@ -10,7 +10,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
   font-family: $font;
 }
 
-// ================== Display Google Maps ===============
+// ============ Display Google Maps ===============
 .map-container {
   width: 100%;
   max-width: 100%;
@@ -20,14 +20,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
   height: 500px;
 }
 
-// ================ Map-Area  ==============
-#map-area {
-  width: 400px;
-}
-
-
-
-// ============== Side-Nav ======================
+// ================ Side-Nav ======================
 
 .side-nav {
   border: 3px solid #000;
@@ -36,8 +29,18 @@ html, body, h1, h2, h3, h4, h5, h6 {
   width: 200px;
   }
 
-//============ Side-Nav 2 =====================
-.side-nav2 {
-  border: 5px solid lime;
-  width: 200px;
+// ================ Left Side =================
+//Upvote/Downvote, Like, Comment
+h2 {
+font-size: 12px;
+font-family: $font;
+
+}
+
+// =============== Top Buttons ===============
+.button {
+  background-color: pink;
+  padding: 5px;
+  font-family: $font;
+  font-size: 14px;
 }

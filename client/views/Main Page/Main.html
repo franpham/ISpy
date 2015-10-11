@@ -3,34 +3,33 @@
 
 <body>
 
-<ul class="button-group round">
-  <li><a href="#" class="button">Add Marker</a></li>
-  <li><a href="#" class="button">Delete Marker</a></li>
-  <li> <input class="button" type="filepicker" data-fp-apikey="AL1xLgWq0SsykUvj3fM0lz" data-fp-mimetypes="image/*" data-fp-container="modal" data-fp-store-location="s3" data-fp-services="BOX,CLOUDDRIVE,COMPUTER,DROPBOX,FACEBOOK,GITHUB,GOOGLE_DRIVE,FLICKR,EVERNOTE,GMAIL,INSTAGRAM,IMAGE_SEARCH,URL,PICASA,FTP,CUSTOMSOURCE,CLOUDAPP,IMGUR" onchange="alert(event.fpfile.url)">
-  </li>
-</ul>
-
+<!-- Welcome/Logout -->
     <div class="large-9 columns">
       <ul class="inline-list right">
-      <h5>Welcome Francis
+      <h5>Welcome Boss Man Francis
         <a href="#" id="logout">Logout</a>
       </h5>
       </ul>
     </div>
 
-
-
 <!-- MAP -->
     <div class="row">
       <div class="large-9 push-3 columns">
 
-        <h3>WHERE ARE THE HOTTIES?</h3>
-
+        <h3>WHERE ARE THE HOTTIES?
+         <ul class="button-group round">
+          <li><a href="#" class="button">Add Marker</a></li>
+          <li><a href="#" class="button">Delete Marker</a></li>
+          <li> <input class="button" type="filepicker" data-fp-apikey="AL1xLgWq0SsykUvj3fM0lz" data-fp-mimetypes="image/*" data-fp-container="modal" data-fp-store-location="s3" data-fp-services="BOX,CLOUDDRIVE,COMPUTER,DROPBOX,FACEBOOK,GITHUB,GOOGLE_DRIVE,FLICKR,EVERNOTE,GMAIL,INSTAGRAM,IMAGE_SEARCH,URL,PICASA,FTP,CUSTOMSOURCE,CLOUDAPP,IMGUR" onchange="alert(event.fpfile.url)">
+            </li>
+          </ul>
+        </h3>
         {{> map}}
 
         <div id="comment">
         <p>Blah blah blah</p>
         </div>
+
       </div>
 
 <!-- LEFT SIDE -->
@@ -38,29 +37,42 @@
 
       <ul class="side-nav">
         <p>
-          <img src="http://images5.fanpop.com/image/photos/24800000/Pusheen-pusheen-the-cat-24896962-173-147.gif" id="myModal">
-          vote/comment
+          <!-- Modal -->
+          <a href="#" data-reveal-id="myModal"><img src="http://images5.fanpop.com/image/photos/24800000/Pusheen-pusheen-the-cat-24896962-173-147.gif"></a>
+          <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <h2 id="modalTitle">THIS IS MY MODAL</h2>
+            <p class="lead">I like Chocolate Chip Cookies</p>
+            <p>Insert picture? Time/Date? Username?</p>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+          </div>
+          <h2>Upvote/DownVote Like Comment</h2>
         </p>
          <p>
-          <img src="http://images5.fanpop.com/image/photos/24800000/Pusheen-pusheen-the-cat-24896962-173-147.gif">
-          vote/comment
+          <!-- Modal -->
+          <a href="#" data-reveal-id="myModal"><img src="http://images5.fanpop.com/image/photos/24800000/Pusheen-pusheen-the-cat-24896962-173-147.gif"></a>
+          <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <h2 id="modalTitle">THIS IS MY MODAL</h2>
+            <p class="lead">I like Chocolate Chip Cookies</p>
+            <p>Insert picture? Time/Date? Username?</p>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+          </div>
+          <h2>Upvote/DownVote Like Comment</h2>
         </p>
-         <p>
-          <img src="http://images5.fanpop.com/image/photos/24800000/Pusheen-pusheen-the-cat-24896962-173-147.gif">
-          vote/comment
+        <p>
+          <!-- Modal -->
+          <a href="#" data-reveal-id="myModal"><img src="http://images5.fanpop.com/image/photos/24800000/Pusheen-pusheen-the-cat-24896962-173-147.gif"></a>
+          <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <h2 id="modalTitle">THIS IS MY MODAL</h2>
+            <p class="lead">I like Chocolate Chip Cookies</p>
+            <p>Insert picture? Time/Date? Username?</p>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+          </div>
+          <h2>Upvote/DownVote Like Comment</h2>
         </p>
       </ul>
     </div>
 </div>
 
-<a href="#" data-reveal-id="myModal">Attach this to picture, for comments</a>
-
-<div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-  <h2 id="modalTitle">Awesome. I have it.</h2>
-  <p class="lead">Your couch.  It is mine.</p>
-  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
 </body>
 
 
