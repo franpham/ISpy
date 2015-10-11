@@ -1,6 +1,6 @@
 
 Markers = new Mongo.Collection('markers');
-// Marker fields: _id, lat, lng, img, userId, username
+// Markers fields: _id, lat, lng, img, userId, username
 
 ImageData = new Mongo.Collection('imageData');
-// ImageData fields: _id, markerId, userId, username, comment, upvotes
+// ImageData fields: _id, markerId, userId, username, createdAt, upCount, downCount, upvotes: {userId: Boolean}, downvotes {userID: Boolean}

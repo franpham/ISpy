@@ -5,14 +5,23 @@
 //  ============= Variables ==============
 $font:  Architects Daughter;
 
-
 html, body, h1, h2, h3, h4, h5, h6 {
-  background-color: #AAAAAA;
+  background-color: #FAFAFA;
   text-align:center;
   font-family: $font;
 }
+h1{
+background-color: #FFF;
+}
 
-// ================== Display Google Maps ===============
+// ============= Top Nav =====================
+//Welcome
+h5{
+  float: left;
+  text-align: left;
+}
+
+// ============ Display Google Maps ===============
 .map-container {
   width: 100%;
   max-width: 100%;
@@ -34,10 +43,51 @@ html, body, h1, h2, h3, h4, h5, h6 {
   padding: 5px;
   padding-top: 10px;
   width: 200px;
+  margin-top: 35px;
   }
+.reveal-modal{
+  width: 500px;
+}
 
 //============ Side-Nav 2 =====================
 .side-nav2 {
   border: 5px solid lime;
   width: 200px;
+}
+
+// ================ Left Side =================
+//Upvote/Downvote, Like, Comment
+h2 {
+font-size: 12px;
+font-family: $font;
+
+}
+
+// =============== Top Buttons ===============
+.button {
+  background-color: #FAFAFA;
+  padding-bottom: 0px;
+  font-family: $font;
+  font-size: 14px;
+  color: #000;
+  &:hover {
+    background-color: #FAFAFA;
+  }
+}
+// h3 {
+//   float: right;
+// }
+
+// ============== Footer ====================
+#borderimg {
+  border: 15px solid transparent;
+  padding: 15px;
+  border-image-source: url("http://i57.tinypic.com/10xxape.gif");
+  border-image-repeat: repeat;
+}
+#logos {
+  padding-right: 15px;
+}
+footer {
+  margin-top: 0px;
 }
