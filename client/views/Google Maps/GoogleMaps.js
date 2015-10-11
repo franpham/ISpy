@@ -19,8 +19,6 @@ Template.map.onCreated(function() {
   });
 });
 
-Markers = new Mongo.Collection('markers');
-
 Template.map.onCreated(function() {
   GoogleMaps.ready('map', function(map) {
     google.maps.event.addListener(map.instance, 'click', function(event) {
