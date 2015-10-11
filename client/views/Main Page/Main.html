@@ -1,36 +1,35 @@
 <template name="main">
-  <title>Let's play!</title>
+  <title>I Spy.. </title>
 
 <body>
 
-<ul class="button-group round">
-  <li><a href="#" class="button">Add Marker</a></li>
-  <li><a href="#" class="button">Delete Marker</a></li>
-  <li> <input class="button" type="filepicker" data-fp-apikey="AL1xLgWq0SsykUvj3fM0lz" data-fp-mimetypes="image/*" data-fp-container="modal" data-fp-store-location="s3" data-fp-services="BOX,CLOUDDRIVE,COMPUTER,DROPBOX,FACEBOOK,GITHUB,GOOGLE_DRIVE,FLICKR,EVERNOTE,GMAIL,INSTAGRAM,IMAGE_SEARCH,URL,PICASA,FTP,CUSTOMSOURCE,CLOUDAPP,IMGUR" onchange="alert(event.fpfile.url)">
-  </li>
-</ul>
-
+<!-- Welcome -->
     <div class="large-9 columns">
-      <ul class="inline-list right">
-      <h5>Welcome Francis
-        <a href="#" id="logout">Logout</a>
-      </h5>
-      </ul>
+      <h5>Welcome Boss Man Francis</h5>
     </div>
-
-
 
 <!-- MAP -->
     <div class="row">
       <div class="large-9 push-3 columns">
 
-        <h3>WHERE ARE THE HOTTIES?</h3>
+        <h3>I Spy ....
+        </h3>
+         <ul class="button-group round">
+          <li><a href="#" class="button" id="addMarker">Add Marker</a></li>
+          <li><a href="#" class="button" id="deleteMarker">Delete Marker</a></li>
+          <li> <input class="button" type="filepicker" data-fp-apikey="AL1xLgWq0SsykUvj3fM0lz" data-fp-mimetypes="image/*" data-fp-container="modal" data-fp-store-location="s3" data-fp-services="BOX,CLOUDDRIVE,COMPUTER,DROPBOX,FACEBOOK,GITHUB,GOOGLE_DRIVE,FLICKR,EVERNOTE,GMAIL,INSTAGRAM,IMAGE_SEARCH,URL,PICASA,FTP,CUSTOMSOURCE,CLOUDAPP,IMGUR" onchange="alert(event.fpfile.url)">
+            </li>
+          </ul>
 
         {{> map}}
+        <p><u><b>How this works:</b></u>
+          <p>Run into a celebrity by accident? Snap a photo and upload it with our GPS tracking ( or manually drop a marker onto the map) to let others know what and where you saw it!
+          <center><b>OR</b></center>
+          Browse through already marked photos and see what others have seen!
 
-        <div id="comment">
-        <p>Blah blah blah</p>
-        </div>
+          </p>
+        </p>
+
       </div>
 
 <!-- LEFT SIDE -->
@@ -38,29 +37,58 @@
 
       <ul class="side-nav">
         <p>
-          <img src="http://images5.fanpop.com/image/photos/24800000/Pusheen-pusheen-the-cat-24896962-173-147.gif" id="myModal">
-          vote/comment
+          <!-- Modal -->
+          <a href="#" data-reveal-id="myModal"><img src="http://i62.tinypic.com/ftzlvo.png"></a>
+          <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <h2 id="modalTitle">Date: Oct. 12, 2015</h2>
+            <p class="lead">Description: Today, I met a Wizard</p>
+            <p>Comments: He helped me git commit! </p>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+          </div>
+          <h2>
+            <a href="#"><img src="http://i60.tinypic.com/ve654j.png"></a>
+            <a href="#"><img src="http://i58.tinypic.com/4goz6.png"></a>
+            <a href="#"><img src="http://i62.tinypic.com/2edoaw5.png"> Like</a>
+            <a href="#"><img src="http://i59.tinypic.com/308ed1t.png"> Comment</a>
+          </h2>
         </p>
          <p>
-          <img src="http://images5.fanpop.com/image/photos/24800000/Pusheen-pusheen-the-cat-24896962-173-147.gif">
-          vote/comment
+          <!-- Modal -->
+          <a href="#" data-reveal-id="myModal2"><img src="http://i58.tinypic.com/vbz90.png"></a>
+          <div id="myModal2" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <h2 id="modalTitle">Date: Nov. 21, 2015</h2>
+            <p class="lead">Description: Alpha Giraffe Jr.</p>
+            <p>Comments: Meet Victor, the former Alpha Giraffe. The new Alpha Giraffe is Nigel. Pictures coming soon...</p>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+          </div>
+          <h2>
+            <a href="#"><img src="http://i60.tinypic.com/ve654j.png"></a>
+            <a href="#"><img src="http://i58.tinypic.com/4goz6.png"></a>
+            <a href="#"><img src="http://i62.tinypic.com/2edoaw5.png"> Like</a>
+            <a href="#"><img src="http://i59.tinypic.com/308ed1t.png"> Comment</a>
+          </h2>
         </p>
-         <p>
-          <img src="http://images5.fanpop.com/image/photos/24800000/Pusheen-pusheen-the-cat-24896962-173-147.gif">
-          vote/comment
+        <p>
+          <!-- Modal -->
+          <a href="#" data-reveal-id="myModal3"><img src="http://i58.tinypic.com/331m9hu.png"></a>
+          <div id="myModal3" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <h2 id="modalTitle">Date: ??/??/2015</h2>
+            <p class="lead">Description: Secret Agent</p>
+            <p>Comments: Makes delicious donuts appear</p>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+          </div>
+          <h2>
+            <a href="#"><img src="http://i60.tinypic.com/ve654j.png"></a>
+            <a href="#"><img src="http://i58.tinypic.com/4goz6.png"></a>
+            <a href="#"><img src="http://i62.tinypic.com/2edoaw5.png"> Like</a>
+            <a href="#"><img src="http://i59.tinypic.com/308ed1t.png"> Comment</a>
+          </h2>
         </p>
       </ul>
     </div>
+
 </div>
 
-<a href="#" data-reveal-id="myModal">Attach this to picture, for comments</a>
-
-<div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-  <h2 id="modalTitle">Awesome. I have it.</h2>
-  <p class="lead">Your couch.  It is mine.</p>
-  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
 </body>
 
 
@@ -68,16 +96,21 @@
   <footer class="row">
     <div class="large-12 columns">
       <hr/>
-      <div class="row">
-        <div class="large-6 columns">
-          <p>© Copyright to Francis, Naomi, El, and Kasi</p>
+      <div class="row" id="footer-row">
+        <div class="large-6 columns" id="footer-row">
+          <p>
+          <img src="http://i57.tinypic.com/10xxape.gif">
+          © Copyright to <a href="https://github.com/franpham">Francis</a>, <a href="https://github.com/ndunhourowens/">Naomi</a>, <a href="https://github.com/styel07">El</a>, and <a href="https://github.com/kasona">Kasi</a>
+          <img src="http://i57.tinypic.com/10xxape.gif">
+          </p>
         </div>
         <div class="large-6 columns">
           <ul class="inline-list right">
-          <a href="#">This</a>
-           <a href="#">is</a>
-           <a href="#">the</a>
-           <a href="#">footer</a>
+
+           <a href="http://meteor-2015.devpost.com/" id="logos"><img src="http://i57.tinypic.com/2wguotl.png"></a>
+           <a href="https://github.com/franpham/ISpy" id="logos"><img src="http://i62.tinypic.com/ifpg1i.png"></a>
+           <a href="http://www.devleague.com/" id="logos"><img src="http://i60.tinypic.com/dy97x1.png"></a>
+
           </ul>
         </div>
       </div>
