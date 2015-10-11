@@ -1,11 +1,9 @@
-<head>
-  <link rel="stylesheet" href="/styles/styles.css">
-</head>
 <template name="BaseLayout">
+<head>
+</head>
 <body>
-
-    {{> yield}}
-    <!-- yield: template get inserted here  -->
+  {{> yield}}
+  <!-- yield: template get inserted here  -->
 
 <script type="text/javascript" src="//api.filepicker.io/v2/filepicker.js"></script>
   <script src="js/foundation/foundation.reveal.js"></script>
@@ -13,5 +11,4 @@
     $(document).foundation();
   </script>
 </body>
-
 </template>

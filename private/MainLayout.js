@@ -27,8 +27,8 @@ Template.map.onCreated(function() {
           animation: google.maps.Animation.DROP,
           position: new google.maps.LatLng(document.lat, document.lng),
           map: map.instance,
-          // Store the document _id on the marker to update the document in the 'dragend' event;
           id: document._id
+          // Store the document _id on the marker to update the document in the 'dragend' event;
         });
         // This listener lets us drag markers on the map and update their corresponding document.
         google.maps.event.addListener(marker, 'dragend', function(event) {

@@ -11,11 +11,10 @@ Template.main.destroyed = function() {
 // Should save information from form and put that into Task container
 
 //Logout button should take user back to login page
-
-Template.main.events({
-  'click #logout' : function(event) {
-    event.preventDefault();
-    Router.go('/')
-  }
+Template.main.events({    // this is handled in router.js
+  // 'click #logout' : function(event) {
+  //   event.preventDefault();
+  //   Router.go('/')
+  // }
 });
 
