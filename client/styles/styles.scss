@@ -1,83 +1,134 @@
-
 @import url(https://fonts.googleapis.com/css?family=Architects+Daughter);
-@import 'clearfix';
+@import url(https://fonts.googleapis.com/css?family=Chewy|Kaushan+Script|Lobster+Two|Press+Start+2P|Megrim);
+
+#topics {
+  width: 128px !important;
+}
+
+#heading {
+  font-weight: bold;
+}
+
+#footer-row {
+  height: 128px;
+}
 
 //  ============= Variables ==============
-$font:  Architects Daughter;
+$font-Arch:  Architects Daughter;
+$font-Megrim: Megrim;
+html, body{
+  background-image: url("images/spectrum.jpg");
+  background-size: cover;
+  background-color: #FAFAFA;
+}
 
 html, body, h1, h2, h3, h4, h5, h6 {
-  background-color: #FAFAFA;
   text-align:center;
-  font-family: $font;
+  font-family: $font-Arch;
 }
 h1{
-background-color: #FFF;
+  height: 500px;
+  margin: 50px;
+  text-align: center;
+  color: #000;
+  margin-top: 50px;
+  background-color: #79CBBF;
+  font-family: $font-Megrim;
+  padding-top: 50px;
+}
+
+//loginBut
+#loginBut {
+  padding-top: 100px;
+  font-family: $font-Arch;
 }
 
 // ============= Top Nav =====================
 //Welcome
-h5{
-  float: left;
-  text-align: left;
+header {
+  background-color: #79CBBF;
+  border-bottom: 1px solid #A2A2A2;
+
+  h5{
+    display: inline-block;
+    background-color: #79CBBF;
+    float: left;
+    font-size: 15px;
+    margin-left: 10px;
+  }
+  h3{
+    font-family: $font-Megrim;
+    width: 200px;
+    font-size: 25px;
+    display: inline-block;
+    background-color: #79CBBF;
+  }
 }
 
-// ============ Display Google Maps ===============
+// ============ Map Area ===============
 .map-container {
   width: 100%;
   max-width: 100%;
-  height: 800px;
+  height: 500px;
 }
 .row {
   height: 500px;
+  margin-top: 20px;
+}
+#how-to {
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #A2A2A2;
+  background-color: white;
+  opacity: 0.6;
+}
+#topics {
+  padding-right: 40px;
+  width: 120px;
+}
+#upload {
+  padding: 0px;
 }
 
-// ================ Map-Area  ==============
-#map-area {
-  width: 400px;
-}
 
-// ============== Side-Nav ======================
+// ================ Side-Nav ======================
 
 .side-nav {
-  border: 3px solid #000;
-  padding: 5px;
-  padding-top: 10px;
-  width: 200px;
+  border-radius: 10px;
+  border: 1px solid #A2A2A2;
+  padding: 15px;
+  padding-top: 20px;
+  width: 256px;
   margin-top: 35px;
   }
 .reveal-modal{
   width: 500px;
 }
 
-//============ Side-Nav 2 =====================
-.side-nav2 {
-  border: 5px solid lime;
-  width: 200px;
-}
-
 // ================ Left Side =================
 //Upvote/Downvote, Like, Comment
 h2 {
 font-size: 12px;
-font-family: $font;
+font-family: $font-Arch;
 
 }
 
 // =============== Top Buttons ===============
 .button {
-  background-color: #FAFAFA;
-  padding-bottom: 0px;
-  font-family: $font;
-  font-size: 16px;
+  background-color: transparent;
+  padding: 10px;
+  font-family: $font-Arch;
+  font-size: 20px;
   color: #000;
+    color: #008CBA;
   &:hover {
-    background-color: #FAFAFA;
-    color: red;
+    background-color: transparent;
+    color: #79CBBF;
   }
 }
-// h3 {
-//   float: right;
-// }
+#hover{
+    padding-right: 10px;
+  }
 
 // ============== Footer ====================
 #borderimg {
@@ -90,5 +141,7 @@ font-family: $font;
   padding-right: 15px;
 }
 footer {
-  margin-top: 0px;
+  margin-top: 128px;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }

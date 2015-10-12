@@ -1,119 +1,99 @@
 <template name="main">
   <title>I Spy.. </title>
+  <!-- Welcome -->
+    <header>
+      <h5>Welcome {{> loginButtons}}</h5>
+      <h3 id="heading">I Spy ....</h3>
+    </header>
 
-<body>
-
-<!-- Welcome -->
-    <div class="large-9 columns">
-      <h5>Welcome Boss Man Francis</h5>
-    </div>
-
-<!-- MAP -->
-    <div class="row">
-      <div class="large-9 push-3 columns">
-
-        <h3>I Spy ....
-        </h3>
-         <ul class="button-group round">
-          <li><a href="#" class="button" id="addMarker">Add Marker</a></li>
-          <li><a href="#" class="button" id="deleteMarker">Delete Marker</a></li>
-          <li> <input class="button" type="filepicker" data-fp-apikey="AL1xLgWq0SsykUvj3fM0lz" data-fp-mimetypes="image/*" data-fp-container="modal" data-fp-store-location="s3" data-fp-button-text="Upload Image" data-fp-services="BOX,CLOUDDRIVE,COMPUTER,DROPBOX,FACEBOOK,GITHUB,GOOGLE_DRIVE,FLICKR,EVERNOTE,GMAIL,INSTAGRAM,IMAGE_SEARCH,URL,PICASA,FTP,CUSTOMSOURCE,CLOUDAPP,IMGUR">
-            </li>
-          </ul>
-
-        {{> map}}
-        <p><u><b>How this works:</b></u>
-          <p>Run into a celebrity by accident? Snap a photo and upload it with our GPS tracking ( or manually drop a marker onto the map) to let others know what and where you saw it!
-          <center><b>OR</b></center>
-          Browse through already marked photos and see what others have seen!
-
-          </p>
-        </p>
-
-      </div>
-
-<!-- LEFT SIDE -->
-    <div class="large-3 pull-9 columns">
-
-      <ul class="side-nav">
-        <p>
-          <!-- Modal -->
-          <a href="#" data-reveal-id="myModal"><img src="http://i62.tinypic.com/ftzlvo.png"></a>
-          <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-            <h2 id="modalTitle">Date: Oct. 12, 2015</h2>
-            <p class="lead">Description: Today, I met a Wizard</p>
-            <p>Comments: He helped me git commit! </p>
-            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-          </div>
-          <h2>
-            <a href="#"><img src="http://i60.tinypic.com/ve654j.png"></a>
-            <a href="#"><img src="http://i58.tinypic.com/4goz6.png"></a>
-            <a href="#"><img src="http://i62.tinypic.com/2edoaw5.png"> Like</a>
-            <a href="#"><img src="http://i59.tinypic.com/308ed1t.png"> Comment</a>
-          </h2>
-        </p>
-         <p>
-          <!-- Modal -->
-          <a href="#" data-reveal-id="myModal2"><img src="http://i58.tinypic.com/vbz90.png"></a>
-          <div id="myModal2" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-            <h2 id="modalTitle">Date: Nov. 21, 2015</h2>
-            <p class="lead">Description: Alpha Giraffe Jr.</p>
-            <p>Comments: Meet Victor, the former Alpha Giraffe. The new Alpha Giraffe is Nigel. Pictures coming soon...</p>
-            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-          </div>
-          <h2>
-            <a href="#"><img src="http://i60.tinypic.com/ve654j.png"></a>
-            <a href="#"><img src="http://i58.tinypic.com/4goz6.png"></a>
-            <a href="#"><img src="http://i62.tinypic.com/2edoaw5.png"> Like</a>
-            <a href="#"><img src="http://i59.tinypic.com/308ed1t.png"> Comment</a>
-          </h2>
-        </p>
-        <p>
-          <!-- Modal -->
-          <a href="#" data-reveal-id="myModal3"><img src="http://i58.tinypic.com/331m9hu.png"></a>
-          <div id="myModal3" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-            <h2 id="modalTitle">Date: ??/??/2015</h2>
-            <p class="lead">Description: Secret Agent</p>
-            <p>Comments: Makes delicious donuts appear</p>
-            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-          </div>
-          <h2>
-            <a href="#"><img src="http://i60.tinypic.com/ve654j.png"></a>
-            <a href="#"><img src="http://i58.tinypic.com/4goz6.png"></a>
-            <a href="#"><img src="http://i62.tinypic.com/2edoaw5.png"> Like</a>
-            <a href="#"><img src="http://i59.tinypic.com/308ed1t.png"> Comment</a>
-          </h2>
-        </p>
+  <!-- MAP -->
+  <div class="row">
+    <div class="large-9 push-3 columns">
+      <ul class="button-group">
+        <span class="button">Topics: &nbsp;</span>
+        <select id="topics" name="select" require="true">
+          <option value="hotGuys" selected>Hot Guys</option>
+          <option value="hotGirls">Hot Girls</option>
+          <option value="cuteCats">Cute Cats</option>
+          <option value="cuteDogs">Cute Dogs</option>
+          <option value="coolCars">Cool Cars</option>
+          <option value="landmarks">Landmarks</option>
+          <option value="venues">Venues</option>
+          <option value="selfies">Selfie</option>
+          <option value="traffic">Traffic</option>
+        </select>
+        <li>
+          <a href="#" class="button" id="deleteMarker">
+            Delete Image
+          </a>
+        </li>
+        <li>
+          <input id="upload" data-fp-button-text="Upload Image" class="button" type="filepicker" data-fp-apikey="AL1xLgWq0SsykUvj3fM0lz" data-fp-mimetypes="image/*" data-fp-container="modal" data-fp-store-location="s3" data-fp-services="BOX,CLOUDDRIVE,COMPUTER,DROPBOX,FACEBOOK,GITHUB,GOOGLE_DRIVE,FLICKR,EVERNOTE,GMAIL,INSTAGRAM,IMAGE_SEARCH,URL,PICASA,FTP,CUSTOMSOURCE,CLOUDAPP,IMGUR">
+        </li>
       </ul>
+
+      <div class="map-container">
+        {{> googleMap name="map" options=mapOptions}}
+        <!-- googleMap is a template from dburles:google-maps -->
+      </div>
+
+      <div id="how-to">
+      <p><u><b>
+        How this works:
+      </b></u>
+        <p>
+          Run into a celebrity by accident? Snap a photo and upload it with our GPS tracking ( or manually drop a marker onto the map) to let others know what and where you saw it!
+          <div>Browse through already marked photos and see what others have seen!</div>
+        </p>
+      </p>
     </div>
 
-</div>
+  </div>
 
-</body>
+  <!-- LEFT SIDE -->
+  <div class="large-3 pull-9 columns">
 
+    <p class="side-nav" overflow="auto">
+      <h4><u>Latests Pics</u></h4>
+      {{#each topicPics}}
+        {{> oneImage}}
+      {{/each}}
+    </p>
+  </div>
+  </div>
 
- <!-- FOOTER -->
-  <footer class="row">
-    <div class="large-12 columns">
-      <hr/>
-      <div class="row" id="footer-row">
-        <div class="large-6 columns" id="footer-row">
-          <p>
+<!-- FOOTER -->
+<footer class="row">
+  <div class="large-12 columns">
+  <hr/>
+    <div class="row" id="footer-row">
+      <div class="large-6 columns" id="footer-row">
+        <p>
           <img src="http://i57.tinypic.com/10xxape.gif">
-          © Copyright to <a href="https://github.com/franpham">Francis</a>, <a href="https://github.com/ndunhourowens/">Naomi</a>, <a href="https://github.com/styel07">El</a>, and <a href="https://github.com/kasona">Kasi</a>
+          ©
+          <a href="https://github.com/franpham">Francis</a>,
+          <a href="https://github.com/ndunhourowens/">Naomi</a>,
+          <a href="https://github.com/styel07">El</a>, &amp;
+          <a href="https://github.com/kasona">Kasi</a>
           <img src="http://i57.tinypic.com/10xxape.gif">
-          </p>
-        </div>
-        <div class="large-6 columns">
-          <ul class="inline-list right">
+        </p>
+      </div>
+      <div class="large-6 columns">
+        <ul class="inline-list right">
 
-           <a href="http://meteor-2015.devpost.com/" id="logos"><img src="http://i57.tinypic.com/2wguotl.png"></a>
-           <a href="https://github.com/franpham/ISpy" id="logos"><img src="http://i62.tinypic.com/ifpg1i.png"></a>
-           <a href="http://www.devleague.com/" id="logos"><img src="http://i60.tinypic.com/dy97x1.png"></a>
-
-          </ul>
-        </div>
+          <a href="http://meteor-2015.devpost.com/" id="logos">
+            <img src="http://i57.tinypic.com/2wguotl.png"></a>
+          <a href="https://github.com/franpham/ISpy" id="logos">
+            <img src="http://i62.tinypic.com/ifpg1i.png"></a>
+          <a href="http://www.devleague.com/" id="logos">
+            <img src="http://i60.tinypic.com/dy97x1.png"></a>
+        </ul>
       </div>
     </div>
-  </footer>
+  </div>
+</footer>
+</template>
+
+<template name="oneImage">
+  <img id="{{markerId}}" name="{{userId}}" src="{{picUrl}}" class="coolImage">
 </template>
