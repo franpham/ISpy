@@ -4,18 +4,28 @@
 #topics {
   width: 128px !important;
 }
+.label {
+  cursor: auto !important;
+}
+
+#upload {
+  color: blue;
+}
+#upload:hover {
+  color: aqua;
+}
 
 #heading {
   font-weight: bold;
 }
-
-#footer-row {
-  height: 128px;
+#welcome {
+  padding: 8px 0 0 8px;
 }
 
 //  ============= Variables ==============
 $font-Arch:  Architects Daughter;
 $font-Megrim: Megrim;
+
 html, body{
   background-image: url("images/spectrum.jpg");
   background-size: cover;
@@ -77,19 +87,12 @@ header {
 }
 #how-to {
   margin-top: 10px;
+  padding-top: 10px;
   border-radius: 10px;
   border: 1px solid #A2A2A2;
   background-color: white;
   opacity: 0.6;
 }
-#topics {
-  padding-right: 40px;
-  width: 120px;
-}
-#upload {
-  padding: 0px;
-}
-
 
 // ================ Side-Nav ======================
 
@@ -100,7 +103,9 @@ header {
   padding-top: 20px;
   width: 256px;
   margin-top: 35px;
-  }
+  height: 800px;
+  overflow: scroll;
+}
 .reveal-modal{
   width: 500px;
 }
@@ -140,8 +145,9 @@ font-family: $font-Arch;
 #logos {
   padding-right: 15px;
 }
-footer {
+footer.row {
   margin-top: 128px;
-  margin-bottom: 0;
-  padding-bottom: 0;
+}
+#footer-row {
+  height: 128px;
 }

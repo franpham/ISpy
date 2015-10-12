@@ -1,34 +1,34 @@
 "use strict";
+// TODO: popup Image, add geolocation, upVote, downVote
 
 Meteor.startup(function() {
   GoogleMaps.load();
 });
 var markers = {};               // the current Markers on the map;
-var mapInstance = null;         // needed to add map Marker & Listener;
-var thisTopic = 'cuteCats';     // the currentTopic
-// Template.map was renamed to Template.main since map.html was moved to Main.html;
+var isDragged = true;           // flag to not setMap(null) for dragged markers;
+var mapInstance = null;         // needed to add map markers & listeners;
+var googler = null;       // needed by outer functions;
+var thisTopic = 'hotGuys';     // the currentTopic;
 
 Template.main.helpers({
   mapOptions: function() {
     if (GoogleMaps.loaded()) {
-      return {
-        center: new google.maps.LatLng(21.30886, -157.80858),
-        zoom: 12
-      };
+      return { center: new google.maps.LatLng(21.30886, -157.80858), zoom: 12 };
     }
   },
-  topicPics: function() {   // refreshMap() must be called in onCreated() since Meteor will iterate the Cursor when rendering;
-    return ImageData.find({ topic: Router.current().params.topic });
+  topicPics: function() {
+    var subject = Router.current().params.topic;
+    if (googler) {    // if googler is initialized, then page has already loaded;
+       var initPics = ImageData.find({ topic: subject });
+       refreshMap(initPics);          // set the images' markers;
+    }
+    return ImageData.find({ topic: subject ? subject : thisTopic });
   }
 });
 
-// TODO: show the Markers, show the Images, add topics handler, center Marker;
-// 2nd TODO: popup Image, add geolocation, upVote, downVote
-
 Template.main.events({
   "change #topics" : function (event) {
-    var index = event.originalEvent.srcElement.selectedIndex;
-    thisTopic = event.originalEvent.srcElement[index].value;
+    thisTopic = event.originalEvent.srcElement.value;
     Router.go('/main/' + thisTopic);
   }
 });
@@ -42,84 +42,92 @@ Template.main.events({   // "this" is the ImageData;
 Template.main.events({   // "this" is the ImageData;
   'dblclick .coolImage' : function () {
     if (Meteor.userId() === this.userId) {
-      var marker = markers[this.markerId];          // Marker exists only IF user created one;
+      var marker = markers[this.markerId];          // delete the marker only IF user created one;
       if (marker && confirm('Are you sure you want to delete this photo and its map marker?')) {
-        filepicker.remove(this.picUrl);             // remove image from FilePicker server;
+        filepicker.remove(this.picUrl);             // DELETE IMAGE FROM FILEPICKER SERVER;
         ImageData.remove({ '_id': this._id });
-        Markers.remove({ '_id': this.markerId });   // Markers.remove will triger removeMarker();
+        Markers.remove({ '_id': this.markerId });   // Markers.remove will trigger removeMarker() via observe();
       }
       else
         console.log("The image did not have a marker or the user cancelled deleting.");
-    } // the removed function in the observe() below will remove Marker from the map;
+    }
   }
 });
 
-function refreshMap(pics) {
-  var keys = Object.keys(markers);      // remove the old Markers;
-  for (var i = 0; i < keys.length; i++) {
-    removeMarker(markers[keys[i]]);
-  }
-  var images = pics.fetch();
-  for (var i = 0; i < images.length; i++) {
-    var markerId = images[i].markerId;
-    if (markerId) {    // place a marker only if user created one before;
-      var data = Markers.findOne({ '_id': markerId });
-      var marker = new google.maps.Marker({
-        draggable: true,
-        animation: google.maps.Animation.DROP,
-        position: new google.maps.LatLng(data.lat, data.lng),
-        map: mapInstance,
-        _id: markerId,
-        userId: images[i].userId
-        // Store the markerId on the marker to update the Marker in the 'dragend' event;
-      });
-      addMarker(marker);
+
+  function refreshMap(pics) {
+    var keys = Object.keys(markers);      // remove the old Markers;
+    console.log('in refresh, keys = ' + keys.length);
+    for (var i = 0; i < keys.length; i++) {
+      if (markers[keys[i]])
+        removeMarker(markers[keys[i]]);
+    }
+    var images = pics.fetch();
+    console.log(images);
+    for (var i = 0; i < images.length; i++) {
+      var markerId = images[i].markerId;
+      if (markerId) {    // place a marker only IF user created one;
+        var data = Markers.findOne({ '_id': markerId });
+        var marker = new googler.Marker({
+          draggable: true,
+          animation: googler.Animation.DROP,
+          position: new googler.LatLng(data.lat, data.lng),
+          map: mapInstance,
+          _id: markerId,
+          userId: images[i].userId
+          // Store markerId in marker to update the database in the 'dragend' event;
+        });
+        addMarker(marker);    // add the new Markers;
+      }
     }
   }
-  pics.rewind();    // MUST rewind the Cursor for template re-rendering;
-}
 
-function removeMarker(marker) {
-  markers[marker._id].setMap(null);   // remove the marker from the map
-  google.maps.event.clearInstanceListeners(markers[marker._id]);
-  delete markers[marker._id];    // Remove the reference to the marker
-}
+  // removeMarker expects a google.maps.Marker INSTANCE!
+  function removeMarker(marker) {
+    googler.event.clearInstanceListeners(marker);
+    delete markers[marker._id];   // remove the reference to the marker
+    marker.setMap(null);          // remove the marker from the map
+  }
 
-function addMarker(marker) {
-  // This listener lets us drag markers on the map and update their corresponding Marker object.
-  google.maps.event.addListener(marker, 'dragend', function(event) {
-    Markers.update(marker.id, { $set: { lat: event.latLng.lat(), lng: event.latLng.lng() }});
-  });
-  // ------------------    MARKERS ARE UPDATED WHENEVER USER FINISH DRAGGING IT    --------------
-  markers[marker._id] = marker;   // Store marker instance within the markers object.
-}
+  // addMarker expects a google.maps.Marker INSTANCE!
+  function addMarker(marker) {      // update the marker's coordinates after dragging;
+    googler.event.addListener(marker, 'dragend', function(event) {
+      Markers.update(marker._id, { $set: { lat: event.latLng.lat(), lng: event.latLng.lng() }});
+      isDragged = true;
+    });
+    // ------------------    MARKERS ARE UPDATED WHENEVER USER FINISH DRAGGING IT    --------------
+    markers[marker._id] = marker;   // Store marker instance within the markers dict;
+  }
 
 Template.main.onCreated(function() {
+  var param = Router.current().params.topic;
+  var subject = param ? param : thisTopic;
+
   GoogleMaps.ready('map', function(map) {
     console.log("GoogleMaps is ready!");
-    mapInstance = map.instance;           // set mapInstance BEFORE trigger;
-    var initPics = ImageData.find({ topic: thisTopic });
-    refreshMap(initPics);   // set the initial images & markers;
+    $('#topics').prop('value', subject);
+    mapInstance = map.instance;       // IMPORTANT: set mapInstance;
+    googler = google.maps;
 
     // Register an onchange listener on the filepicker to save the url;
     $("input[type='filepicker']").on('change', function (event) {
-        if (!Meteor.userId())     // markerId will be updated after user selects a Marker;
+        if (!Meteor.userId())                   // NEED TO ADD username FIELD FOR ACCOUNT CREATION;
           return;
-        var url = event.originalEvent.fpfile.url;
+        var url = event.originalEvent.fpfile.url;     // markerId will be updated after user clicks on the map;
         var picId = ImageData.insert({ markerId: '', userId: Meteor.userId(), username: Meteor.user().username,
                          picUrl: url, upCount: 0, downCount: 0, topic: thisTopic, createdAt: Date.now() });
 
-    var mapListener = google.maps.event.addListener(mapInstance, 'click', function(event) {
-        var markId = Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng(), picUrl: '',   // change back to url;
+      var mapListener = google.maps.event.addListener(mapInstance, 'click', function(event) {
+        var markId = Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng(), picUrl: url,
                      userId: Meteor.userId(), username: Meteor.user().username });
         ImageData.update({ _id: picId}, { $set: { markerId: markId }});   // update the ImageData's markerId;
-        google.maps.event.removeListener(mapListener);            // prevent adding multiple markers;
-    });
+        google.maps.event.removeListener(mapListener);                    // prevent adding multiple markers;
+        isDragged = false;     // MUST set to false for new marker;
+      });
     }); // -----------------  MARKERS ARE INSERTED WHENEVER USER CLICKS ON THE MAP  ------------------
 
     Markers.find().observe({
-      added: function(document) {
-        // Create a marker for the document
+      added: function(document) {   // Create a marker for the document;
         var marker = new google.maps.Marker({
           draggable: true,
           animation: google.maps.Animation.DROP,
@@ -127,18 +135,22 @@ Template.main.onCreated(function() {
           map: mapInstance,
           _id: document._id,
           userId: Meteor.userId()
-          // Store the document _id on the marker to update the document in the 'dragend' event;
+          // Store _id in marker to update the database in the 'dragend' event;
         });
         addMarker(marker);
       },
 
-      changed: function(newDocument, oldDocument) {
-        markers[newDocument._id].setPosition({ lat: newDocument.lat, lng: newDocument.lng });
+      // KNOWN BUG: MARKER GETS DUPLICATED AFTER 1ST DRAG; A HACK IS TO PREVENT 1ST DRAG BY setMap(null);
+      changed: function(newDocument, oldDocument) {     // newDocument is a Marker object;
+        if (isDragged)
+          markers[oldDocument._id].setMap(null);        // remove the old marker from the map;
+        markers[oldDocument._id].setPosition(new google.maps.LatLng(newDocument.lat, newDocument.lng));
       },
-
-      removed: function(oldDocument) {
-        removeMarker(oldDocument);
+      removed: function(oldDocument) {       // oldDocument is a Marker object;
+        removeMarker(markers[oldDocument._id]);
       }
     });
+    var initPics = ImageData.find({ topic: subject });    // GoogleMaps.ready() is only called once!
+    refreshMap(initPics);          // set the images' markers;
   });
 });
