@@ -3,35 +3,35 @@
   "unibuildDependencies": {
     "os.json": {
       "files": {
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/package.js": "3f31800223fe5e81a5b5b6e2fba371cbee82d576"
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/package.js": "3f31800223fe5e81a5b5b6e2fba371cbee82d576"
       },
       "directories": []
     },
     "web.browser.json": {
       "files": {
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/package.js": "3f31800223fe5e81a5b5b6e2fba371cbee82d576",
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/css/normalize.css": "1a1f7c7632a40dedc3dce1795c1ac5102ee7ed1f",
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/css/foundation.min.css": "de08f14daa6c5d293554077df7b93f954b7df5fc",
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/js/vendor/modernizr.js": "0da35e6bea234fa33e1f3e37744252d327c81c04",
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/js/vendor/fastclick.js": "ca963461d0677887aa1bf64861f125cb06563d03",
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/js/vendor/jquery.cookie.js": "74f7f68550e90a1def6faa6de6e0830f1ab34970",
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/js/vendor/placeholder.js": "967a5ae9a87a48b0cc17ec4ce014eeaee1d537ad",
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/js/foundation.min.js": "2ef08374ed7a088e24458dad3382b3029f399cfa",
-        "/Users/kasi/DevLeague/ISpy/packages/foundation/js/activate-foundation.js": "2b20f70ffb844657385e4df67a25e75b600130ea"
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/package.js": "3f31800223fe5e81a5b5b6e2fba371cbee82d576",
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/css/normalize.css": "1a1f7c7632a40dedc3dce1795c1ac5102ee7ed1f",
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/css/foundation.min.css": "de08f14daa6c5d293554077df7b93f954b7df5fc",
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/js/vendor/modernizr.js": "0da35e6bea234fa33e1f3e37744252d327c81c04",
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/js/vendor/fastclick.js": "ca963461d0677887aa1bf64861f125cb06563d03",
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/js/vendor/jquery.cookie.js": "74f7f68550e90a1def6faa6de6e0830f1ab34970",
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/js/vendor/placeholder.js": "967a5ae9a87a48b0cc17ec4ce014eeaee1d537ad",
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/js/foundation.min.js": "2ef08374ed7a088e24458dad3382b3029f399cfa",
+        "/Users/franpham/DevLeague/ISpy/packages/foundation/js/activate-foundation.js": "2b20f70ffb844657385e4df67a25e75b600130ea"
       },
       "directories": []
     }
   },
   "pluginDependencies": {
     "files": {
-      "/Users/kasi/DevLeague/ISpy/packages/foundation/package.js": "3f31800223fe5e81a5b5b6e2fba371cbee82d576"
+      "/Users/franpham/DevLeague/ISpy/packages/foundation/package.js": "3f31800223fe5e81a5b5b6e2fba371cbee82d576"
     },
     "directories": []
   },
   "pluginProviderPackageMap": {
     "foundation": {
       "kind": "local",
-      "sourceRoot": "/Users/kasi/DevLeague/ISpy/packages/foundation"
+      "sourceRoot": "/Users/franpham/DevLeague/ISpy/packages/foundation"
     },
     "meteor": {
       "kind": "versioned",
