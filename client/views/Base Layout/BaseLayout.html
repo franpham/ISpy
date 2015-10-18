@@ -3,12 +3,9 @@
 </head>
 <body>
   {{> yield}}
-  <!-- yield: template get inserted here  -->
 
 <script type="text/javascript" src="//api.filepicker.io/v2/filepicker.js"></script>
-  <!-- // <script src="js/foundation/foundation.reveal.js"></script> -->
-  <!-- <script>
-    $(document).foundation();
-  </script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/js/foundation/foundation.tooltip.js"></script>
+<!-- must link to CDN because version 5.5.3 has unexpected character when browser parses it -->
 </body>
 </template>

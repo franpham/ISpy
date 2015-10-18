@@ -1,5 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Architects+Daughter);
 @import url(https://fonts.googleapis.com/css?family=Chewy|Kaushan+Script|Lobster+Two|Press+Start+2P|Megrim);
+@import "partials/settings";      // settings must be loaded before components imported by "foundation";
+@import "foundation.scss";        // gulpfile.js sets relative path to foundation;
+@import "partials/clearfix";
 
 #topics {
   width: 128px !important;
@@ -9,10 +12,10 @@
 }
 
 #upload {
-  color: blue;
+  color: #008CBA !important;
 }
 #upload:hover {
-  color: aqua;
+  color: #79CBBF;
 }
 
 #heading {
@@ -20,6 +23,22 @@
 }
 #welcome {
   padding: 8px 0 0 8px;
+}
+
+.picContainer {
+  position: relative;
+}
+.picContainer .caption {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 0px;
+  left: 0px;
+  color: navy;
+  background-color: #F0E68C;
+  text-align: center;
+  font-weight: bold;
+  opacity: 0.6;
 }
 
 //  ============= Variables ==============

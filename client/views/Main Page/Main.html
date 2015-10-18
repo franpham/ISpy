@@ -1,10 +1,10 @@
 <template name="main">
   <title>I Spy... </title>
   <!-- Welcome -->
-    <header>
-      <h5 id="welcome">Welcome {{> loginButtons}}</h5>
-      <h3 id="heading">I Spy ...</h3>
-    </header>
+  <header>
+    <h5 id="welcome">Welcome {{> loginButtons}}</h5>
+    <h3 id="heading">I Spy ...</h3>
+  </header>
 
   <!-- MAP -->
   <div class="row">
@@ -38,7 +38,7 @@
           Saw someone cute or something cool? Snap a photo, upload it, and select its location on the map to let others know what and where you saw it (for phones with GPS enabled, this app will detect the location for you).
         </p>
         <p>
-          Browse through local photos and see what others have spyed recently! To see the photo's location, click on the image to have it's location centered (some photos may not have a location selected). To delete your photo, just double click the image.
+          Browse through local photos and see what others have spyed recently! To see the photo's location, click on the image to have it's location centered (some photos may not have a location specified). To delete your photo, just double click the image.
         </p>
       </div>
     </div>
@@ -53,7 +53,6 @@
   </div>
   </div>
 
-
 <!-- FOOTER -->
 <footer class="row">
   <div class="large-12 columns">
@@ -63,7 +62,7 @@
         <p>
           <img src="http://i57.tinypic.com/10xxape.gif">
           <a href="https://github.com/franpham">© Francis</a>,
-          <a href="https://github.com/ndunhourowens/">Naomi</a>,
+          <a href="https://github.com/ndunhourowens">Naomi</a>,
           <a href="https://github.com/styel07">El</a>,
           <a href="https://github.com/kasona">&amp; Kasi</a>
           <img src="http://i57.tinypic.com/10xxape.gif">
@@ -71,9 +70,9 @@
       </div>
       <div class="large-6 columns">
         <ul class="inline-list right">
-          <a href="http://meteor-2015.devpost.com/" id="logos">
+          <a href="https://www.meteor.com/" id="logos">
             <img src="http://i57.tinypic.com/2wguotl.png"></a>
-          <a href="https://github.com/franpham/ISpy" id="logos">
+          <a href="https://github.com/franpham/" id="logos">
             <img src="http://i62.tinypic.com/ifpg1i.png"></a>
           <a href="http://www.devleague.com/" id="logos">
             <img src="http://i60.tinypic.com/dy97x1.png"></a>
@@ -85,5 +84,8 @@
 </template>
 
 <template name="oneImage">
-  <img id="{{markerId}}" name="{{userId}}" src="{{picUrl}}" class="coolImage">
+  <div id="{{markerId}}_tip" class="picContainer has-tip round" title="test" data-tooltip>
+    <img id="{{_id}}" name="{{userId}}" src="{{picUrl}}" class="coolImage" />
+    <div id="{{markerId}}_cap" class="caption"></div>
+  </div>
 </template>
