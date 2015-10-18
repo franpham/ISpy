@@ -12,6 +12,7 @@
       <ul class="button-group">
         <span class="label button">Topics: </span>
         <select id="topics" name="select" require="true">
+          <option value="myPics">My Photos</option>
           <option value="hotGuys">Hot Guys</option>
           <option value="hotGirls">Hot Girls</option>
           <option value="cuteCats" selected>Cute Cats</option>
@@ -84,7 +85,7 @@
 </template>
 
 <template name="oneImage">
-  <div id="{{markerId}}_tip" class="picContainer has-tip round" title="test" data-tooltip>
+  <div id="{{markerId}}_tip" class="picContainer has-tip round" title="" data-tooltip>
     <img id="{{_id}}" name="{{userId}}" src="{{picUrl}}" class="coolImage" />
     <div id="{{markerId}}_cap" class="caption"></div>
   </div>

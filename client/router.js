@@ -12,11 +12,12 @@ Router.configure({
         // console.log('Router: no user');
       }
     } else if (Router.current().route.getName() === 'login') {  // else user is loggedIn;
+      Meteor.logoutOtherClients();
       this.redirect('main');
-      // console.log('Router: redirecting');
+      // console.log('Router: loggedIn, redirecting from login');
     }
     // else
-    //   console.log('Router: user exists');
+    //   console.log('Router: loggedIn, not at login');
     this.next();    // must call next() to get the Router to continue executing;
   }
 });
@@ -24,5 +25,5 @@ Router.configure({
 Router.route('/', { template: '' });
 Router.route('/login', { template: '' });
 Router.route('/main');
-Router.route('/main/:topic', { template: 'main'});
+Router.route('/main/:topic', { template: 'main'});    // topic handled by main's topicPics helper;
 // By default the router will render the capitalized name of the template, with punctuations removed and next letter capped.

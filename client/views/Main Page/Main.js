@@ -1,6 +1,7 @@
 "use strict";
-// TODO: add geolocation, import styles override, user's pics list, image description, upVote/ downVote DB & handlers, fix DB query for refresh;
+// TODO: add geolocation, image description, upVote/ downVote DB & handlers, fix DB query for refresh;
 var LABELS = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';   // only 35 pics are labeled;
+var TOPICS = ['myPics', 'hotGuys', 'hotGirls', 'cuteCats', 'cuteDogs', 'coolCars', 'landmarks', 'venus', 'events', 'selfies', 'traffic'];
 
 var markers = {};           // the current Markers on the map;
 var mapInstance = null;     // needed to add map markers & listeners;
@@ -21,17 +22,18 @@ Template.main.helpers({
   },
   topicPics: function() {
     var subject = Router.current().params.topic;
-    thisTopic = subject ? subject : 'cuteCats';
-    $('#topics').prop('value', thisTopic);    // change topics list value;
+    thisTopic = TOPICS.indexOf(subject) < 0 ? 'cuteCats' : subject;
+    $('#topics').prop('value', thisTopic);    // change #topics list value;
+    var query = thisTopic === 'myPics' ? { userId: Meteor.userId() } : { topic: thisTopic };
     if (googler) {              // if no googler, markers are set by observe() in GoogleMaps.ready();
       Meteor.setTimeout(function() {
-        var pics = ImageData.find({ topic: thisTopic });
+        var pics = ImageData.find(query);
         var images = pics.fetch();
         totalMarkers = images.length;
-        refreshMap(images);     // SET THE NEW MARKERS;
-      }, 1000);                 // HACK: wait 1 sec so Meteor can finish templating;
+        refreshMap(images);          // SET THE NEW MARKERS;
+      }, 1000);                      // HACK: wait 1 sec so Meteor can finish templating;
     }
-    return ImageData.find({ topic: thisTopic });    // SET THE NEW IMAGES;
+    return ImageData.find(query);    // SET THE NEW IMAGES;
   }
 });
 
@@ -49,10 +51,12 @@ Template.main.events({
 Template.main.events({   // "this" is the ImageData;
   'click .coolImage' : function () {
     var marker = markers[this.markerId];
-    marker.setAnimation(googler.Animation.BOUNCE);
-    setTimeout(function() {
-      marker.setAnimation(null);
-    }, 3000);
+    if (marker) {                     // bounce the marker only IF user created one;
+      marker.setAnimation(googler.Animation.BOUNCE);
+      setTimeout(function() {
+        marker.setAnimation(null);
+      }, 3000);
+    }
   }
 });
 
@@ -86,9 +90,9 @@ Template.main.events({   // "this" is the ImageData;
     for (var i = 0; i < images.length; i++) {
       var markerId = images[i].markerId;
       var picDate = new Date(images[i].createdAt);
-      var labelText = labelIndex < LABELS.length ? LABELS[labelIndex++ % LABELS.length] : '';
       var picLabel = 'Created by ' + images[i].username + ',\n' + picDate.toLocaleDateString() + ', ' + picDate.toLocaleTimeString();
-      if (markerId) {                  // add a marker only IF user created one;
+      if (markerId) {                           // add a marker only IF user created one;
+        var labelText = labelIndex < LABELS.length ? LABELS[labelIndex++ % LABELS.length] : '';
         var data = Markers.findOne({ '_id': markerId });
         var marker = new googler.Marker({
           draggable: true,
@@ -107,6 +111,8 @@ Template.main.events({   // "this" is the ImageData;
         addMarker(marker);    // add the new marker;
       }
     } // MUST CALL foundation() on each refresh!
+    $('.caption:empty').prop('title', 'No marker was added.');
+    $('.caption:empty').text('--');
     $(document).foundation();
   }
 
@@ -133,31 +139,32 @@ Template.main.events({   // "this" is the ImageData;
   }
 
 Template.main.onCreated(function() {
-  // Register an onchange listener on the filepicker to save the url;
-  $("input[type='filepicker']").on('change', function (event) {
-    if (!Meteor.userId())
-      return;
-    var url = event.originalEvent.fpfile.url;     // markerId will be updated after user clicks on the map;
-    var picId = ImageData.insert({ markerId: '', userId: Meteor.userId(), username: Meteor.user().username,
-                     picUrl: url, upCount: 0, downCount: 0, topic: thisTopic, createdAt: Date.now() });
-
-    // Meteor handles adding oneImage template by observing the database, and adding a marker via observe() below;
-    var mapListener = google.maps.event.addListener(mapInstance, 'click', function(event) {
-      var markId = Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng(), picUrl: url,
-                   userId: Meteor.userId(), username: Meteor.user().username });
-      ImageData.update({ _id: picId}, { $set: { markerId: markId }});   // update the ImageData's markerId;
-      google.maps.event.removeListener(mapListener);                    // prevent adding multiple markers;
-    });
-  }); // -----------------  MARKERS ARE INSERTED WHENEVER USER CLICKS ON THE MAP  ------------------
-
   GoogleMaps.ready('map', function(map) {
     console.log("GoogleMaps is ready!");
+
     mapInstance = map.instance;
     googler = google.maps;
     infoWindow = new google.maps.InfoWindow({ content: '' });
     Meteor.setTimeout(function() {
       $(document).foundation();  // MUST call foundation() after DOM loading;
     }, 1000);   // args: 'tooltip', 'reflow'
+
+    // MUST BE INSIDE of GoogleMaps.ready(): register an onchange listener on the filepicker to save the url;
+    $('#upload').on('change', function (event) {
+      if (!Meteor.userId())
+        return;
+      var url = event.originalEvent.fpfile.url;     // markerId will be updated after user clicks on the map;
+      var picId = ImageData.insert({ markerId: '', userId: Meteor.userId(), username: Meteor.user().username,
+                       picUrl: url, upCount: 0, downCount: 0, topic: thisTopic, createdAt: Date.now() });
+
+      // Meteor handles adding oneImage template by observing the database, and adding a marker via observe() below;
+      var mapListener = google.maps.event.addListener(mapInstance, 'click', function(event) {
+        var markId = Markers.insert({ lat: event.latLng.lat(), lng: event.latLng.lng(), picUrl: url,
+                     userId: Meteor.userId(), username: Meteor.user().username });
+        ImageData.update({ _id: picId}, { $set: { markerId: markId }});   // update the ImageData's markerId;
+        google.maps.event.removeListener(mapListener);                    // prevent adding multiple markers;
+      });
+    }); // -----------------  MARKERS ARE INSERTED WHENEVER USER CLICKS ON THE MAP  ------------------
 
     // newDocument & oldDocument are Mongo Markers objects;
     Markers.find().observe({
@@ -179,9 +186,12 @@ Template.main.onCreated(function() {
         });
         $('#' + document._id + '_tip').prop('title', picLabel);
         $('#' + document._id + '_cap').text(labelText);
-        addMarker(marker);
-        if (labelIndex === totalMarkers)
-          $(document).foundation('tooltip', 'reflow');  // call foundation() for new markers;
+        addMarker(marker);      // >= so methods are called after adding all markers and for new ones;
+        if (labelIndex >= totalMarkers) {
+          $('.caption:empty').parent().prop('title', 'No marker was added.');
+          $('.caption:empty').text('--');    // all markers have images, so set text for unmarked images;
+          // $(document).foundation();       // testing, not needed;
+        }
       },
 
       changed: function(newDocument, oldDocument) {
