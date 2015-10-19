@@ -1,6 +1,6 @@
 "use strict";
-// TODO: add geolocation, image description, upVote/ downVote DB & handlers, fix DB query for refresh;
-var LABELS = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';   // only 35 pics are labeled;
+// TODO: show 60 pics per topic, image description, upVote/ downVote DB & handlers;
+var LABELS = '12345678ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';    // label only 60 markers;
 var TOPICS = ['myPics', 'hotGuys', 'hotGirls', 'cuteCats', 'cuteDogs', 'coolCars', 'landmarks', 'venus', 'events', 'selfies', 'traffic'];
 
 var markers = {};           // the current Markers on the map;
@@ -8,8 +8,9 @@ var mapInstance = null;     // needed to add map markers & listeners;
 var googler = null;         // needed by outer functions;
 var infoWindow = null;      // pop-up that's reused when marker is active;
 var thisTopic = '';         // the current topic;
-var totalMarkers = 0;        // total # of markers shown;
+var totalMarkers = 0;       // total # of markers shown;
 var labelIndex = 0;         // label index for markers;
+var markMe = null;          // the user's current position;
 
 Meteor.startup(function() {
   GoogleMaps.load();
@@ -17,7 +18,8 @@ Meteor.startup(function() {
 Template.main.helpers({
   mapOptions: function() {
     if (GoogleMaps.loaded()) {
-      return { center: new google.maps.LatLng(21.30886, -157.80858), zoom: 12 };
+      var geo = Geolocation.latLng();
+      return { zoom: 12, center: (geo ? new google.maps.LatLng(geo.lat, geo.lng) : new google.maps.LatLng(21.30886, -157.80858)) };
     }
   },
   topicPics: function() {
@@ -27,8 +29,7 @@ Template.main.helpers({
     var query = thisTopic === 'myPics' ? { userId: Meteor.userId() } : { topic: thisTopic };
     if (googler) {              // if no googler, markers are set by observe() in GoogleMaps.ready();
       Meteor.setTimeout(function() {
-        var pics = ImageData.find(query);
-        var images = pics.fetch();
+        var images = ImageData.find(query).fetch();
         totalMarkers = images.length;
         refreshMap(images);          // SET THE NEW MARKERS;
       }, 1000);                      // HACK: wait 1 sec so Meteor can finish templating;
@@ -78,7 +79,6 @@ Template.main.events({   // "this" is the ImageData;
   }
 });
 
-  // TO DO: get all Markers with 1 query instead of 1 marker per query;
   function refreshMap(images) {
     var keys = Object.keys(markers);      // remove the old Markers;
     for (var i = 0; i < keys.length; i++) {
@@ -87,13 +87,21 @@ Template.main.events({   // "this" is the ImageData;
     }
     labelIndex = 0;        // must reset labelIndex when refreshing;
     console.log('refreshMap: old markers = ' + keys.length + '; new markers = ' + images.length);
+    var markerIds = images.map(function(pic) {
+      return pic.markerId;
+    });
+    var markersMap = {};
+    var picMarkers = Markers.find({ '_id': { $in: markerIds }}).fetch();
+    picMarkers.forEach(function(marker) {
+      markersMap[marker._id] = marker;
+    });
     for (var i = 0; i < images.length; i++) {
       var markerId = images[i].markerId;
       var picDate = new Date(images[i].createdAt);
       var picLabel = 'Created by ' + images[i].username + ',\n' + picDate.toLocaleDateString() + ', ' + picDate.toLocaleTimeString();
       if (markerId) {                           // add a marker only IF user created one;
         var labelText = labelIndex < LABELS.length ? LABELS[labelIndex++ % LABELS.length] : '';
-        var data = Markers.findOne({ '_id': markerId });
+        var data = markersMap[markerId];
         var marker = new googler.Marker({
           draggable: true,
           animation: googler.Animation.DROP,
@@ -139,12 +147,34 @@ Template.main.events({   // "this" is the ImageData;
   }
 
 Template.main.onCreated(function() {
+  console.log("GoogleMaps is ready!");
+  var self = this;        // call BEFORE GoogleMaps.ready();
   GoogleMaps.ready('map', function(map) {
-    console.log("GoogleMaps is ready!");
-
-    mapInstance = map.instance;
     googler = google.maps;
+    mapInstance = map.instance;
+
+    self.autorun(function() {
+      var geo = Geolocation.latLng();
+      if (!geo)
+        return;
+      else if (markMe) {
+        markMe.setPosition(geo);
+        mapInstance.setCenter(markMe.getPosition());
+      }
+      else {
+        markMe = new google.maps.Marker({
+          draggable: false,
+          animation: google.maps.Animation.DROP,
+          position: new google.maps.LatLng(geo.lat, geo.lng),
+          map: mapInstance,
+          userId: Meteor.userId(),
+          title: Meteor.user().username,
+          label: '*'
+        });
+      }
+    });
     infoWindow = new google.maps.InfoWindow({ content: '' });
+    $('#topics').prop('value', thisTopic);    // change #topics list value;
     Meteor.setTimeout(function() {
       $(document).foundation();  // MUST call foundation() after DOM loading;
     }, 1000);   // args: 'tooltip', 'reflow'
